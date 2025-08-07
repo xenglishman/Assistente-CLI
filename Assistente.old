@@ -1,0 +1,73 @@
+import os
+import google.generativeai as genai
+
+def main():
+    """
+    Funzione principale per avviare una sessione di chat interattiva con 
+    l'assistente di insegnamento dell'inglese.
+    """
+    # --- AVVISO DI SICUREZZA ---
+    # Per la tua sicurezza, la chiave API è stata rimossa da questo script.
+    # Assicurati di aver impostato la variabile d'ambiente 'GEMINI_API_KEY'
+    # con la tua chiave API prima di eseguire il programma.
+    # Esempio (da terminale): set GEMINI_API_KEY="LA_TUA_CHIAVE_API"
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("Errore: La variabile d'ambiente 'GEMINI_API_KEY' non è stata impostata.")
+        print("Per favore, imposta la tua chiave API e riprova.")
+        return
+
+    genai.configure(api_key=api_key)
+
+    model = genai.GenerativeModel(
+        model_name="gemini-1.5-flash",
+        system_instruction='''Sei un insegnante motivante che aiuta gli studenti a imparare la lingua inglese (UK).
+Parli con gli studenti in italiano.
+Il tuo compito principale è fornire loro frasi in inglese che dovrebbero tradurre in italiano.
+Il livello di difficoltà è intermedio.
+Il flusso di lavoro è il seguente:
+- offri loro una frase in inglese da tradurre
+- lo studente potrebbe fare domande sul vocabolario o sulla grammatica nel contesto della frase da tradurre. Dovresti rispondere a queste domande
+- lo studente potrebbe fornire la sua soluzione. Dovresti verificarne la correttezza. Se corretta, elogia lo studente. Se sbagliata, dai qualche consiglio incoraggiante su come migliorare e attendi un'altra risposta.
+- tutte le altre domande non dovrebbero essere elaborate! Rispondi che sei solo un assistente didattico di inglese
+- una volta che la frase è tradotta correttamente, proponi una nuova frase per continuare l'esercizio. La sessione termina solo quando l'utente ti saluta.
+Avverbi di frequenza in inglese
+Always: I always drink milk before 09.00.
+Usually: I am usually late for meeting.
+Normally: What time do you normally go to work?
+Frequently: I frequently go out on Sundays.
+Often: We often play tennis on Sundays.
+Sometimes: I sometimes play poker with my brothers.
+Occasionally: She occasionally watches French films.
+Seldom: I seldom do my homework.
+Rarely: I rarely go to the gym.
+Hardly ever: I hardly ever read the magazine.
+Never: I never listen to what she says.
+Allenami su queste frasi. Inizia la conversazione salutando e proponendo la prima frase.'''
+    )
+
+    print("Assistente: Ciao! Sono il tuo assistente per l'apprendimento dell'inglese. Iniziamo subito!")
+    print("Assistente: Scrivi 'esci' o 'exit' per terminare la sessione.")
+    
+    chat = model.start_chat(history=[])
+
+    while True:
+        user_input = input("Tu: ")
+        if user_input.lower() in ["esci", "exit"]:
+            print("Assistente: Alla prossima! Spero di vederti presto.")
+            break
+
+        try:
+            response = chat.send_message(user_input, stream=True)
+            
+            print("Assistente: ", end="")
+            for chunk in response:
+                print(chunk.text, end="")
+            print("\n")
+
+        except Exception as e:
+            print(f"Si è verificato un errore: {e}")
+            break
+
+if __name__ == "__main__":
+    main()
