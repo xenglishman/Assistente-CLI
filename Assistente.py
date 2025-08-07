@@ -3,11 +3,6 @@ import sys
 import google.generativeai as genai
 
 def main():
-    """
-    Funzione principale per avviare una sessione di chat interattiva con 
-    l'assistente di insegnamento dell'inglese.
-    """
-
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         print("Errore: La variabile d'ambiente 'GEMINI_API_KEY' non è stata impostata.")
