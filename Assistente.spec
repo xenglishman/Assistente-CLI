@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['Assistente.py'],
+    ['assistente.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='Assistente',
+    name='assistente',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
