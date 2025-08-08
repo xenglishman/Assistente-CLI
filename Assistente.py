@@ -33,7 +33,8 @@ def main():
         system_instruction=system_instruction
     )
 
-    print("Assistente: Ciao! Sono il tuo assistente per l'apprendimento dell'inglese. Iniziamo subito!")
+    print("Assistente: Ciao! Sono il tuo assistente per l'apprendimento. Ti farò delle domande e, insieme, ragioneremo sulle risposte.")
+    print("Iniziamo subito!")
     print("Assistente: Scrivi 'esci' o 'exit' per terminare la sessione.")
     
     chat = model.start_chat(history=[])
